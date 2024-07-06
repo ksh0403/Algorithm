@@ -14,8 +14,8 @@ public class Main {
         int m = Integer.parseInt(st.nextToken());
 
         // N * M 크기의 2차원 배열(=행렬) A, B 생성
-        int[][] arr_a = new int[n][m];
-        int[][] arr_b = new int[n][m];
+        int arr_a[][] = new int[n][m];
+        int arr_b[][] = new int[n][m];
 
         // 행렬 A
         for (int i = 0; i < n; i++) {
