@@ -3,11 +3,11 @@ import java.util.StringTokenizer;
 
 public class Main {
     // A@B 연산을 하는 함수
-    public static int operation(int a, int b) {
-        int result = (a + b) * (a - b);
+    public static long operation(long a, long b) {
+        long result = (a + b) * (a - b);
         return result;
     }
-    
+
     public static void main(String[] args) throws IOException {
         // 빠른 입출력을 위한 BufferedReader 와 BufferedWriter
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -16,8 +16,8 @@ public class Main {
         // 문자열 분리를 위한 StringTokenizer
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 
-        int a = Integer.parseInt(st.nextToken());
-        int b = Integer.parseInt(st.nextToken());
+        long a = Long.parseLong(st.nextToken());
+        long b = Long.parseLong(st.nextToken());
 
         // 함수 호출
         bw.write(String.valueOf(operation(a, b)));
