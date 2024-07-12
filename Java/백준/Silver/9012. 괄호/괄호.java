@@ -22,7 +22,7 @@ public class Main {
             // 각 라인의 길이만큼 반복 (NO일 경우 중도 탈출)
             for (int j = 0; j < line.length(); j++) {
                 // "(" 인지 ")" 인지 구분
-                if (line.substring(j, j + 1).charAt(0) == '(') {
+                if (line.substring(j, j + 1).equals("(")) {
                     s_list.add("(");
                 } else {
                     // 스택 size가 0인데 ")" 가 나타날 경우 : NO
