@@ -35,10 +35,10 @@ public class Main {
             for (int j = 0; j < k; j++) {
                 if (j == (k - 1)) {
                     // k - 1 번째 사람이라면 출력하며 리스트에서 제거
-                    bw.write(String.valueOf(n_list.remove()));
+                    bw.write(String.valueOf(n_list.removeFirst()));
                 } else {
                     // 아직 k - 1 번째 사람이 아니라면 리스트에서 제거하여 맨 뒤로 보냄
-                    n_list.add(n_list.remove());
+                    n_list.add(n_list.removeFirst());
                 }
             }
         }
