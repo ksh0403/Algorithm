@@ -15,20 +15,15 @@ public class Main {
         // 나무의 전체 개수 (= 테스트케이스의 수)
         long t = 0;
 
-        String input = br.readLine();
+        // input 선언만 밖에서 함
+        String input;
 
         // 입력줄이 존재하는 동안 계속 반복
-        while (input != null) {
-            // Map에 나무 종이 이미 존재한다면 개수 증가
-            if (tree.containsKey(input)) {
-                tree.replace(input, tree.get(input) + 1);
-            } else {
-                // 처음 등록되는 나무 종이라면 개수를 1로 하여 Map에 추가
-                tree.put(input, 1.0);
-            }
+        while ((input = br.readLine()) != null) {
+            // Map에 이미 종이 있다면 개수를 1 증가시키고, 없다면 개수를 0 + 1로 하여 Map에 추가
+            tree.put(input, tree.getOrDefault(input, 0.0) + 1);
 
             t++;
-            input = br.readLine();
         }
 
         // ArrayList를 활용해 Key 값을 기준으로 오름차순 정렬
@@ -40,7 +35,8 @@ public class Main {
             // 해당 종이 차지하는 비율 (소수점 4째자리까지 반올림)
             String per = String.format("%.4f", tree.get(key)/t * 100);
 
-            sb.append(key + " " + per).append("\n");
+            // StringBuilder에 쌓기
+            sb.append(key).append(" ").append(per).append("\n");
         }
 
         System.out.println(sb);
