@@ -1,46 +1,62 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
-
 public class Main {
-    static int K, size;
-    static int[] num;
-    static ArrayList<Integer>[] tree;
-    public static void main(String[] args) throws IOException{
-        //입력값 처리하는 BufferedReader
+    static int k;
+    static int[] arr;
+    static List<ArrayList<Integer>> list;
+
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        //결과값 출력하는 BufferedWriter
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        K = Integer.parseInt(br.readLine());
-        StringTokenizer st = new StringTokenizer(br.readLine()," ");
-        size = (int)(Math.pow(2, K) - 1);
-        tree = new ArrayList[K+1];
-        num = new int[size+1];
-        for(int i=0;i<=K;i++)
-            tree[i] = new ArrayList<>();
-        int index = 1;
-        //중위 순회 탐색 정보 배열에 저장
-        while(st.hasMoreTokens())
-            num[index++] = Integer.parseInt(st.nextToken());
-        search(1, 1, size);		//중위 순회 특성 이용한 Left, Right 나누기
-        //각 층에 빌딩 정보 BufferedWriter 저장
-        for(int i=1;i<=K;i++){
-            for(int j=0;j<tree[i].size();j++)
-                bw.write(tree[i].get(j) + " ");
-            bw.newLine();
+        k = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        StringBuilder sb = new StringBuilder();
+
+        // 완전 이진 트리의 노드개수 = 2^k-1개
+        arr = new int[(int) Math.pow(2, k) - 1];
+
+        // 입력값 배열 삽입
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
         }
-        bw.flush();		//결과 출력
-        bw.close();
-        br.close();
+
+        // depth에 맞게 노드를 저장하기 위한 list
+        list = new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            list.add(new ArrayList<>());
+        }
+
+        // 탐색
+        search(0,arr.length - 1,0);
+
+        // 출력을 위해 StringBuilder에 담기
+        for (int i = 0; i < k; i++) {
+            for (int j : list.get(i)) {
+                sb.append(j).append(" ");
+            }
+            sb.append("\n");
+        }
+
+        System.out.println(sb);
     }
-    //중위 순회 특성 이용한 레벨에 맞는 빌딩 값들 저장 함수
-    static void search(int depth, int start, int end){
-        int mid = (start + end)/2;		//Root
-        tree[depth].add(num[mid]);
-        if(depth == K)		//단말 노드일 때
+    static void search(int start, int end, int depth) {
+        // 재귀 탈출문
+        if(depth == k) {
             return;
-        search(depth+1, start, mid-1);	//Left
-        search(depth+1, mid+1, end);	//Right
+        }
+
+        // 중간값
+        int mid = (start + end) / 2;
+
+        // depth에 맞게 노드 삽입
+        list.get(depth).add(arr[mid]);
+
+        // 왼쪽 노드(시작부터 중간 - 1 까지)
+        search(start, mid - 1, depth + 1);
+        // 오른쪽 노드 ( 중간 + 1 부터 끝까지)
+        search(mid + 1, end, depth + 1);
     }
 }
