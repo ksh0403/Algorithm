@@ -1,62 +1,54 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    static int k;
-    static int[] arr;
-    static List<ArrayList<Integer>> list;
-
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        k = Integer.parseInt(br.readLine());
-        StringTokenizer st = new StringTokenizer(br.readLine());
         StringBuilder sb = new StringBuilder();
 
-        // 완전 이진 트리의 노드개수 = 2^k-1개
-        arr = new int[(int) Math.pow(2, k) - 1];
+        Queue<Point> queue = new LinkedList<>();
+        int qSize, mid;
+        Point now;
 
-        // 입력값 배열 삽입
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(br.readLine());
+        int num = (int) Math.pow(2, K) - 1;
+        int[] list = new int[num];
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int x = 0; x < num; x++) {
+            list[x] = Integer.parseInt(st.nextToken());
         }
 
-        // depth에 맞게 노드를 저장하기 위한 list
-        list = new ArrayList<>();
-        for (int i = 0; i < k; i++) {
-            list.add(new ArrayList<>());
-        }
+        queue.add(new Point(0, num - 1));
 
-        // 탐색
-        search(0,arr.length - 1,0);
+        while (!queue.isEmpty()) {
+            qSize = queue.size();
 
-        // 출력을 위해 StringBuilder에 담기
-        for (int i = 0; i < k; i++) {
-            for (int j : list.get(i)) {
-                sb.append(j).append(" ");
+            for (int x = 0; x < qSize; x++) {
+                now = queue.poll();
+                
+                // 부모
+                mid = (now.left + now.right) / 2;
+                
+                sb.append(list[mid]).append(" ");
+                if (now.left != now.right) {
+                    // 왼쪽 자식
+                    queue.add(new Point(now.left, mid - 1));
+                    // 오른쪽 자식
+                    queue.add(new Point(mid + 1, now.right));
+                }
             }
             sb.append("\n");
         }
-
-        System.out.println(sb);
+        System.out.print(sb);
     }
-    static void search(int start, int end, int depth) {
-        // 재귀 탈출문
-        if(depth == k) {
-            return;
+
+    public static class Point{
+        int left, right;
+
+        Point(int left, int right) {
+            this.left = left;
+            this.right = right;
         }
-
-        // 중간값
-        int mid = (start + end) / 2;
-
-        // depth에 맞게 노드 삽입
-        list.get(depth).add(arr[mid]);
-
-        // 왼쪽 노드(시작부터 중간 - 1 까지)
-        search(start, mid - 1, depth + 1);
-        // 오른쪽 노드 ( 중간 + 1 부터 끝까지)
-        search(mid + 1, end, depth + 1);
     }
 }
