@@ -14,6 +14,7 @@ public class Main {
             st = new StringTokenizer(br.readLine(), " ");
             int n = Integer.parseInt(st.nextToken());
 
+            // n개의 수를 담는 배열
             int[] input = new int[n];
             for (int j = 0; j < n; j++) {
                 input[j] = Integer.parseInt(st.nextToken());
@@ -22,12 +23,7 @@ public class Main {
             // n개의 수들의 가능한 모든 쌍의 GCD의 합 구하기
             long gcd_sum = 0;
             for (int a = 0; a < n; a++) {
-                for (int b = 0; b < n; b++) {
-                    // 자기자신은 건너뜀
-                    if (a == b) {
-                        continue;
-                    }
-
+                for (int b = a+1; b < n; b++) {
                     // 유클리드 호제법
                     // 몫, 나머지
                     int quotient = Math.min(input[a], input[b]);
@@ -44,8 +40,7 @@ public class Main {
                     gcd_sum += quotient;
                 }
             }
-            // 두 쌍씩 합해져있으므로 gcd_sum을 2로 나눔
-            sb.append(gcd_sum/2).append("\n");
+            sb.append(gcd_sum).append("\n");
         }
         System.out.print(sb);
         br.close();
