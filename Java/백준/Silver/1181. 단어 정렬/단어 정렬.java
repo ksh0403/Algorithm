@@ -4,6 +4,7 @@ import java.util.*;
 public class Main {
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringBuilder sb = new StringBuilder();
     int n = Integer.parseInt(br.readLine());
     int max_length = 0;
     String[] arr = new String[n];
@@ -25,18 +26,15 @@ public class Main {
           }
         }
       }
-      // 한 길이가 끝날 때마다 mini_list를 정렬하여 list에 합침
+      // 한 길이가 끝날 때마다 mini_list를 정렬하여 sb에 쌓음
       // ArrayList를 정렬하기 위해 Collections.sort() 사용
       Collections.sort(mini_list);
       for (String ele : mini_list) {
-        list.add(ele);
+        sb.append(ele).append("\n");
       }
     }
 
-    // 출력
-    for (String ele : list) {
-      System.out.println(ele);
-    }
+    System.out.print(sb);
     br.close();
   }
 }
