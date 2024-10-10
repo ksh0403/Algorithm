@@ -6,12 +6,11 @@ public class Main {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     StringBuilder sb = new StringBuilder();
     int n = Integer.parseInt(br.readLine());
-    Set<String> uniqueStrings = new HashSet<>();
-    String[] arr = new String[n];
 
+    // HashSet을 사용함으로써 자동으로 중복을 제거하면서 입력받음
+    Set<String> uniqueStrings = new HashSet<>();
     for (int i = 0; i < n; i++) {
-      arr[i] = br.readLine();
-      uniqueStrings.add(arr[i]);  // 중복을 제거하면서 입력받음
+      uniqueStrings.add(br.readLine());
     }
 
     // Set을 List로 변환하여 정렬
