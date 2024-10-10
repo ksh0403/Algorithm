@@ -6,32 +6,26 @@ public class Main {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     StringBuilder sb = new StringBuilder();
     int n = Integer.parseInt(br.readLine());
-    int max_length = 0;
+    Set<String> uniqueStrings = new HashSet<>();
     String[] arr = new String[n];
+
     for (int i = 0; i < n; i++) {
       arr[i] = br.readLine();
-      if (max_length < arr[i].length()) {
-        max_length = arr[i].length();
-      }
+      uniqueStrings.add(arr[i]);  // 중복을 제거하면서 입력받음
     }
-  
-    ArrayList<String> list = new ArrayList<>();
-    for (int i = 1; i <= max_length; i++) { // max_length 까지만 반복
-      ArrayList<String> mini_list = new ArrayList<>();
-      for (int j = 0; j < n; j++) {
-        if (arr[j].length() == i) {
-          if (!mini_list.contains(arr[j])) {
-            // mini_list 내에 해당 요소가 없으면 add (중복 방지)
-            mini_list.add(arr[j]);
-          }
-        }
+
+    // Set을 List로 변환하여 정렬
+    List<String> sortedList = new ArrayList<>(uniqueStrings);
+    Collections.sort(sortedList, (a, b) -> {
+      if (a.length() != b.length()) {
+        return Integer.compare(a.length(), b.length());
+      } else {
+        return a.compareTo(b);  // 길이가 같으면 사전순 정렬
       }
-      // 한 길이가 끝날 때마다 mini_list를 정렬하여 sb에 쌓음
-      // ArrayList를 정렬하기 위해 Collections.sort() 사용
-      Collections.sort(mini_list);
-      for (String ele : mini_list) {
-        sb.append(ele).append("\n");
-      }
+    });
+
+    for (String str : sortedList) {
+      sb.append(str).append("\n");
     }
 
     System.out.print(sb);
