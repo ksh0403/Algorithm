@@ -1,78 +1,49 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.StringTokenizer;
- 
+import java.io.*;
+import java.util.*;
+
 public class Main {
- 
-	public static int[] arr;
-	
-	public static void main(String[] args) throws IOException {
-		
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
-		int N = Integer.parseInt(br.readLine());
-		arr = new int[N];
-		
-		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-		for(int i = 0; i < N; i++) {
-			arr[i] = Integer.parseInt(st.nextToken());
-		}
-		
-		
-		// 배열은 반드시 정렬되어있어야한다.
-		Arrays.sort(arr);
-		
-		int M = Integer.parseInt(br.readLine());
-		
-		st = new StringTokenizer(br.readLine(), " ");
-		
-		StringBuilder sb = new StringBuilder();
-		for(int i = 0; i < M; i++) {
-			
-			// 찾고자 하는 값이 있을 경우 1, 없을 경우 0을 출력해야한다.
-			if(binarySearch(Integer.parseInt(st.nextToken())) >= 0) {
-				sb.append(1).append('\n');
-			}
-			else {
-				sb.append(0).append('\n');
-			}
-		}
-		System.out.println(sb);
-	}
-	
-	
-	/**
-	 * @param key 찾으려는 값
-	 * @return key와 일치하는 배열의 인덱스
-	 */
-	public static int binarySearch(int key) {
- 
-		int lo = 0;					// 탐색 범위의 왼쪽 끝 인덱스
-		int hi = arr.length - 1;	// 탐색 범위의 오른쪽 끝 인덱스
- 
-		// lo가 hi보다 커지기 전까지 반복한다.
-		while(lo <= hi) {
- 
-			int mid = (lo + hi) / 2;	// 중간위치를 구한다.
- 
-			// key값이 중간 위치의 값보다 작을 경우
-			if(key < arr[mid]) {
-				hi = mid - 1;
-			}
-			// key값이 중간 위치의 값보다 클 경우
-			else if(key > arr[mid]) {
-				lo = mid + 1;
-			}
-			// key값과 중간 위치의 값이 같을 경우
-			else {
-				return mid;
-			}
-		}
- 
-		// 찾고자 하는 값이 존재하지 않을 경우
-		return -1;
- 
-	}
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        int n = Integer.parseInt(br.readLine());
+        int[] arrA = new int[n];
+        StringTokenizer st_n = new StringTokenizer(br.readLine(), " ");
+        for (int i = 0; i < n; i++) {
+            arrA[i] = Integer.parseInt(st_n.nextToken());
+        }
+        Arrays.sort(arrA); // 이분탐색을 위해 배열을 오름차순으로 정렬
+
+        int m = Integer.parseInt(br.readLine());
+        StringTokenizer st_m = new StringTokenizer(br.readLine(), " ");
+
+        for (int j = 0; j < m; j++) {
+            int num = Integer.parseInt(st_m.nextToken());
+            boolean flag = false;
+            int start = 0; // 탐색 범위의 시작 인덱스
+            int end = n-1; // 탐색 범위의 끝 인덱스
+
+            while (start <= end) {
+                int mid = (start + end) / 2; // mid 인덱스 설정 (mid 값으로 num을 탐색함)
+                if (arrA[mid] == num) { // num을 찾은 경우
+                    sb.append(1).append("\n");
+                    flag = true;
+                    break;
+                } else { // 못찾은 경우 num과 비교해 탐색 범위를 좁힘
+                    if (arrA[mid] < num) {
+                        start = mid + 1;
+                    } else {
+                        end = mid - 1;
+                    }
+                }
+            }
+
+            // num을 찾지 못하고 while문을 나왔을 경우
+            if (flag == false) {
+                sb.append(0).append("\n");
+            }
+        }
+
+        System.out.print(sb);
+        br.close();
+    }
 }
