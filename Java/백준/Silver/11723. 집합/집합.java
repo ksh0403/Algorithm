@@ -6,45 +6,45 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         int m = Integer.parseInt(br.readLine());
-        ArrayList<Integer> s = new ArrayList<>(); // 공집합 S
+        int[] s = new int[21]; // 21 크기의 배열 S (원소는 모두 0)
         StringTokenizer st;
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine(), " ");
             String order = st.nextToken();
 
-            // 연산 수행
             if (order.equals("all")) {
-                s.clear();
                 for (int j = 1; j <= 20; j++) {
-                    s.add(j);
+                    s[j] = j;
                 }
             } else if (order.equals("empty")) {
-                s.clear();
+                for (int j = 1; j <= 20; j++) {
+                    s[j] = 0;
+                }
             } else {
                 int x = Integer.parseInt(st.nextToken());
                 switch (order) {
                     case "add":
-                        if (!s.contains(x)) {
-                            s.add(x);
+                        if (s[x] != x) {
+                            s[x] = x;
                         }
                         break;
                     case "remove":
-                        if (s.contains(x)) {
-                            s.remove(s.indexOf(x));
+                        if (s[x] == x) {
+                            s[x] = 0;
                         }
                         break;
                     case "check":
-                        if (s.contains(x)) {
+                        if (s[x] == x) {
                             sb.append(1 + "\n");
                         } else {
                             sb.append(0 + "\n");
                         }
                         break;
                     case "toggle":
-                        if (s.contains(x)) {
-                            s.remove(s.indexOf(x));
+                        if (s[x] == x) {
+                            s[x] = 0;
                         } else {
-                            s.add(x);
+                            s[x] = x;
                         }
                         break;
                 }
