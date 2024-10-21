@@ -6,7 +6,7 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         int m = Integer.parseInt(br.readLine());
-        LinkedList<Integer> s = new LinkedList<>(); // 공집합 S
+        ArrayDeque<Integer> s = new ArrayDeque<>(); // 공집합 S
         StringTokenizer st;
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine(), " ");
@@ -30,7 +30,7 @@ public class Main {
                         break;
                     case "remove":
                         if (s.contains(x)) {
-                            s.remove(s.indexOf(x));
+                            s.remove(x);
                         }
                         break;
                     case "check":
@@ -42,7 +42,7 @@ public class Main {
                         break;
                     case "toggle":
                         if (s.contains(x)) {
-                            s.remove(s.indexOf(x));
+                            s.remove(x);
                         } else {
                             s.add(x);
                         }
