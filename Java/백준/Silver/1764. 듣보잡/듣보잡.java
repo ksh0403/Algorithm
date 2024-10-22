@@ -12,7 +12,7 @@ public class Main {
         for (int i = 0; i < n; i++) {
             set.add(br.readLine());
         }
-        LinkedList<String> result = new LinkedList<>();
+        ArrayList<String> result = new ArrayList<>();
         for (int j = 0; j < m; j++) {
             String input = br.readLine();
             if (set.contains(input)) {
