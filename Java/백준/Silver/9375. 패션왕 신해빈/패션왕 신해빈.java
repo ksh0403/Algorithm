@@ -16,16 +16,10 @@ public class Main {
                 map.put(clothes, map.getOrDefault(clothes, 0) + 1);
             }
 
-            // 맵에서 value를 가져와 리스트로 변환
-            ArrayList<Integer> list = new ArrayList<>();
+            int result = 1;
             for (String key : map.keySet()) {
                 int value = map.get(key);
-                list.add(value);
-            }
-
-            int result = 1;
-            for (int k = 0; k < list.size(); k++) {
-                result *= (list.get(k) + 1);
+                result *= (value + 1);
             }
             sb.append(result - 1).append("\n");
         }
