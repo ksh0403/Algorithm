@@ -8,14 +8,17 @@ public class Main {
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
         int[] arr = new int[n];
+        int max = 0; // 가장 긴 나무의 길이
         st = new StringTokenizer(br.readLine(), " ");
         for (int i = 0; i < n; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
+            if (max < arr[i]) {
+                max = arr[i];
+            }
         }
-        Arrays.sort(arr); // 이분탐색을 위해 배열을 오름차순으로 정렬
 
         int start = 0;
-        int end = arr[n-1]; // 가장 긴 나무의 길이
+        int end = max;
         int result = 0;
         while (start <= end) {
             int mid = (start + end) / 2;
