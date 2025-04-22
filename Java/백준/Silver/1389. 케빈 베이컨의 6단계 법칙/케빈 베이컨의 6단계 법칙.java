@@ -1,74 +1,75 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.StringTokenizer;
- 
+import java.io.*;
+import java.util.*;
+
 public class Main {
-    static final int INF = 987654321;
- 
-    public static void main(String[] args) throws NumberFormatException, IOException {
+    static int N, M;
+    static ArrayList<Integer>[] graph;
+
+    public static void main(String[] args) throws IOException {
+        // 입력 준비
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st = new StringTokenizer(br.readLine());
- 
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
-        int[][] arr = new int[N + 1][N + 1];
- 
-        // 초기값 설정
+
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+
+        // 그래프 초기화 (1번부터 시작)
+        graph = new ArrayList[N + 1];
         for (int i = 1; i <= N; i++) {
-            for (int j = 1; j <= N; j++) {
-                arr[i][j] = INF;
- 
-                if (i == j) {
-                    arr[i][j] = 0;
-                }
-            }
+            graph[i] = new ArrayList<>();
         }
-        
-        // 간선의 방향이 양방향이어야 함.
+
+        // 친구 관계 입력
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
-            int x = Integer.parseInt(st.nextToken());
-            int y = Integer.parseInt(st.nextToken());
- 
-            arr[x][y] = arr[y][x] = 1;
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+
+            graph[a].add(b);
+            graph[b].add(a); // 양방향
         }
- 
-        // 플로이드 와샬 알고리즘
-        for (int k = 1; k <= N; k++) {
-            for (int i = 1; i <= N; i++) {
-                for (int j = 1; j <= N; j++) {
-                    // 최단경로 초기화
-                    if (arr[i][j] > arr[i][k] + arr[k][j]) {
-                        arr[i][j] = arr[i][k] + arr[k][j];
-                    }
+
+        int min = Integer.MAX_VALUE;
+        int answer = 0;
+
+        // 각 유저에 대해 BFS 돌리기
+        for (int i = 1; i <= N; i++) {
+            int result = bfs(i);
+            if (result < min) {
+                min = result;
+                answer = i;
+            }
+        }
+
+        System.out.println(answer);
+    }
+
+    // BFS로 i번 사람의 케빈 베이컨 수 계산
+    static int bfs(int start) {
+        boolean[] visited = new boolean[N + 1];
+        int[] dist = new int[N + 1];
+        Queue<Integer> q = new LinkedList<>();
+
+        q.offer(start);
+        visited[start] = true;
+
+        while (!q.isEmpty()) {
+            int curr = q.poll();
+
+            for (int next : graph[curr]) {
+                if (!visited[next]) {
+                    visited[next] = true;
+                    dist[next] = dist[curr] + 1;
+                    q.offer(next);
                 }
             }
         }
- 
-        int res = INF;
-        int idx = -1;
- 
-        // 케빈 베이컨의 수가 가장 작은 인덱스를 탐색
+
+        int sum = 0;
         for (int i = 1; i <= N; i++) {
-            int total = 0;
-            for (int j = 1; j <= N; j++) {
-                total += arr[i][j];
-            }
- 
-            if (res > total) {
-                res = total;
-                idx = i;
-            }
+            sum += dist[i];
         }
- 
-        bw.write(idx + "\n");
-        bw.flush();
-        bw.close();
-        br.close();
+
+        return sum;
     }
- 
 }
